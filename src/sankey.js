@@ -67,8 +67,10 @@ export default function() {
       nodes: nodes.apply(null, arguments),
       links: links.apply(null, arguments)
     };
+
     computeNodeLinks(graph);
     computeNodeValues(graph);
+    sortNodes(graph);
     computeNodeDepths(graph);
     computeNodeBreadths(graph, iterations);
     computeLinkBreadths(graph);
@@ -164,6 +166,11 @@ export default function() {
     });
   }
 
+  // Sort the nodes from largest to smallest based on value
+  function sortNodes(graph) {
+    graph.nodes.sort((a, b) => b.value - a.value);
+  }
+
   // Iteratively assign the depth (x-position) for each node.
   // Nodes are assigned the maximum depth of incoming neighbors plus one;
   // nodes with no incoming links are assigned depth zero, while
@@ -217,8 +224,7 @@ export default function() {
         return d.x0;
       })
       .sortKeys(ascending)
-      // Force sort from largest to smallest
-      .entries(graph.nodes.sort((a, b) => b.value - a.value))
+      .entries(graph.nodes)
       .map(function(d) {
         return d.values;
       });
@@ -255,7 +261,7 @@ export default function() {
           if (node.targetLinks.length) {
             // var dy = (sum(node.targetLinks, weightedSource) / sum(node.targetLinks, value) - nodeCenter(node)) * alpha;
             // (node.y0 += dy), (node.y1 += dy);
-            // Force sort from largest to smallest
+            // Align nodes to top instead of centering
             var y = sum(node.targetLinks);
             node.y += (y - nodeCenter(node)) * alpha;
           }
@@ -273,7 +279,7 @@ export default function() {
               // var dy =
               //   (sum(node.sourceLinks, weightedTarget) / sum(node.sourceLinks, value) - nodeCenter(node)) * alpha;
               // (node.y0 += dy), (node.y1 += dy);
-              // Force sort from largest to smallest
+              // Align nodes to top instead of centering
               var y = sum(node.sourceLinks);
               node.y += (y - nodeCenter(node)) * alpha;
             }
