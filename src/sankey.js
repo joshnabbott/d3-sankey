@@ -23,13 +23,13 @@ function nodeCenter(node) {
   return (node.y0 + node.y1) / 2;
 }
 
-function weightedSource(link) {
-  return nodeCenter(link.source) * link.value;
-}
+// function weightedSource(link) {
+//   return nodeCenter(link.source) * link.value;
+// }
 
-function weightedTarget(link) {
-  return nodeCenter(link.target) * link.value;
-}
+// function weightedTarget(link) {
+//   return nodeCenter(link.target) * link.value;
+// }
 
 function defaultId(d) {
   return d.index;
@@ -168,7 +168,9 @@ export default function() {
 
   // Sort the nodes from largest to smallest based on value
   function sortNodes(graph) {
-    graph.nodes.sort((a, b) => b.value - a.value);
+    graph.nodes.sort(function(a, b) {
+      return b.value - a.value;
+    });
   }
 
   // Iteratively assign the depth (x-position) for each node.

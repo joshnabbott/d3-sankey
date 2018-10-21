@@ -17,9 +17,9 @@ export function justify(node, n) {
 }
 
 export function center(node) {
-  console.log("*****************", "something");
-  return 0;
-  // return node.targetLinks.length ? node.depth
-  //     : node.sourceLinks.length ? min(node.sourceLinks, targetDepth) - 1
-  //     : 0;
+  return node.targetLinks.length
+    ? node.depth
+    : node.sourceLinks.length
+      ? min(node.sourceLinks, targetDepth) - 1
+      : 0;
 }
